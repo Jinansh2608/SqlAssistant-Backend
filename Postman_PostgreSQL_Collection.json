@@ -1,0 +1,310 @@
+{
+  "info": {
+    "name": "Database Explorer - PostgreSQL Nexgen_erp",
+    "description": "Postman collection for testing PostgreSQL schema exploration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "health"]
+        },
+        "description": "Check if server is running"
+      },
+      "response": []
+    },
+    {
+      "name": "2. Test PostgreSQL Connection",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"connectionString\": \"postgresql://postgres:toor@localhost:5432/Nexgen_erp\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/test",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "test"]
+        },
+        "description": "Test connection to PostgreSQL without storing context. Get metadata about the database."
+      },
+      "response": []
+    },
+    {
+      "name": "3. Confirm PostgreSQL Connection",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"connectionString\": \"postgresql://postgres:toor@localhost:5432/Nexgen_erp\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/confirm",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "confirm"]
+        },
+        "description": "Confirm connection and get sessionId for subsequent operations. Save the sessionId from response."
+      },
+      "response": []
+    },
+    {
+      "name": "4. Get Current Context",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-DB-Session",
+            "value": "{{sessionId}}",
+            "type": "text",
+            "description": "Replace {{sessionId}} with the sessionId from step 3"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/database/context/current",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "context", "current"]
+        },
+        "description": "Get details about current active database context"
+      },
+      "response": []
+    },
+    {
+      "name": "5. List All Contexts",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/database/context/list",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "context", "list"]
+        },
+        "description": "List all active database contexts/sessions"
+      },
+      "response": []
+    },
+    {
+      "name": "6. Explore Full Schema",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-DB-Session",
+            "value": "{{sessionId}}",
+            "type": "text",
+            "description": "Replace {{sessionId}} with the sessionId from step 3"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/explore",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "explore"]
+        },
+        "description": "Get complete schema exploration - all tables, columns, relationships, indexes, sample data"
+      },
+      "response": []
+    },
+    {
+      "name": "7. Explore Specific Table",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-DB-Session",
+            "value": "{{sessionId}}",
+            "type": "text",
+            "description": "Replace {{sessionId}} with the sessionId from step 3"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tableName\": \"information_schema.tables\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/explore/table",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "explore", "table"]
+        },
+        "description": "Get detailed information about a specific table. Replace tableName with your table name."
+      },
+      "response": []
+    },
+    {
+      "name": "8. Close Database Context",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/database/context/{{sessionId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "context", "{{sessionId}}"]
+        },
+        "description": "Close the database context session when done. Replace {{sessionId}} with your sessionId."
+      },
+      "response": []
+    },
+    {
+      "name": "9. Save Connection Locally",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Nexgen_erp_prod\",\n  \"connectionString\": \"postgresql://postgres:toor@localhost:5432/Nexgen_erp\",\n  \"metadata\": {\n    \"dbType\": \"PostgreSQL\",\n    \"tablesCount\": 0,\n    \"connectionStatus\": \"connected\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/save-connection",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "save-connection"]
+        },
+        "description": "Save this PostgreSQL connection locally for future use. Stores connection details in a local JSON file."
+      },
+      "response": []
+    },
+    {
+      "name": "10. List All Saved Connections",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/database/connections",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "connections"]
+        },
+        "description": "List all database connections you've saved locally"
+      },
+      "response": []
+    },
+    {
+      "name": "11. Get Saved Connection Details",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/database/connections/{{connectionId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "connections", "{{connectionId}}"]
+        },
+        "description": "Get details about a specific saved connection. Replace {{connectionId}} with ID from step 10."
+      },
+      "response": []
+    },
+    {
+      "name": "12. Use Saved Connection (Auto Session)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"connectionId\": \"conn_1705078200000\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/use-saved-connection",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "use-saved-connection"]
+        },
+        "description": "Load a saved connection and automatically create a session. Replace connectionId with ID from step 10."
+      },
+      "response": []
+    },
+    {
+      "name": "13. Delete Saved Connection",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/database/connections/{{connectionId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "connections", "{{connectionId}}"]
+        },
+        "description": "Delete a saved connection from local storage. Replace {{connectionId}} with your connection ID."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "sessionId",
+      "value": "session_1705078200000_1",
+      "type": "string",
+      "description": "Database session ID from confirmation step. Update this after step 3."
+    },
+    {
+      "key": "connectionId",
+      "value": "conn_1705078200000",
+      "type": "string",
+      "description": "Saved connection ID from step 9. Update this after saving a connection."
+    }
+  ]
+}

@@ -1,0 +1,346 @@
+{
+  "info": {
+    "name": "Database Explorer API",
+    "description": "Complete workflow for exploring any database",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "health"]
+        }
+      }
+    },
+    {
+      "name": "2. Detect DB Type",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"connectionString\": \"postgresql://postgres:toor@localhost:5432/Nexgen_erp\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/detect",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "detect"]
+        }
+      }
+    },
+    {
+      "name": "3. Test Connection",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"connectionString\": \"postgresql://postgres:toor@localhost:5432/Nexgen_erp\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/test",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "test"]
+        }
+      }
+    },
+    {
+      "name": "4. Confirm & Create Session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"connectionString\": \"postgresql://postgres:toor@localhost:5432/Nexgen_erp\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/confirm",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "confirm"]
+        }
+      }
+    },
+    {
+      "name": "5. Get Current Session",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-DB-Session",
+            "value": "{{sessionId}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/database/context/current",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "context", "current"]
+        }
+      }
+    },
+    {
+      "name": "6. List All Sessions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/database/contexts",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "contexts"]
+        }
+      }
+    },
+    {
+      "name": "7. Explore Full Schema",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-DB-Session",
+            "value": "{{sessionId}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/database/explore/{{sessionId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "explore", "{{sessionId}}"]
+        }
+      }
+    },
+    {
+      "name": "8. Explore Specific Table",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-DB-Session",
+            "value": "{{sessionId}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/database/explore/table/{{sessionId}}/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "explore", "table", "{{sessionId}}", "users"]
+        }
+      }
+    },
+    {
+      "name": "9. Close Session",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/database/context/{{sessionId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "context", "{{sessionId}}"]
+        }
+      }
+    },
+    {
+      "name": "10. Save Connection",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Nexgen_erp_prod\",\n  \"connectionString\": \"postgresql://postgres:toor@localhost:5432/Nexgen_erp\",\n  \"dbType\": \"PostgreSQL\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/save-connection",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "save-connection"]
+        }
+      }
+    },
+    {
+      "name": "11. List Saved Connections",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/database/list-connections",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "list-connections"]
+        }
+      }
+    },
+    {
+      "name": "12. Get Saved Connection",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/database/get-connection/{{connectionId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "get-connection", "{{connectionId}}"]
+        }
+      }
+    },
+    {
+      "name": "13. Use Saved Connection",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/use-saved-connection/{{connectionId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "use-saved-connection", "{{connectionId}}"]
+        }
+      }
+    },
+    {
+      "name": "14. Delete Saved Connection",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/database/delete-connection/{{connectionId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "delete-connection", "{{connectionId}}"]
+        }
+      }
+    },
+    {
+      "name": "MongoDB Example",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"connectionString\": \"mongodb+srv://username:password@cluster.mongodb.net/dbname\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/confirm",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "confirm"]
+        }
+      }
+    },
+    {
+      "name": "MySQL Example",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"connectionString\": \"mysql://root:password@localhost:3306/database_name\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/confirm",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "confirm"]
+        }
+      }
+    },
+    {
+      "name": "REST API Example",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"connectionString\": \"https://jsonplaceholder.typicode.com/users\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/database/confirm",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "database", "confirm"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "sessionId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "connectionId",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

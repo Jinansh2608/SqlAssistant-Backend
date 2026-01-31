@@ -14,8 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Database Exploration Routes
 app.use('/api/database', databaseRoutes);
-
-// GET - Health Check
 app.get('/api/health', (req, res) => {
   res.status(200).json({ message: 'Server is running', env: NODE_ENV });
 });
